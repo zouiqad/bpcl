@@ -12,6 +12,14 @@ Mesh::Mesh (std::vector<Vertex> vertices,
     this->setup ();
 }
 
+Mesh::Mesh (std::vector<Vertex> vertices,
+            std::vector<unsigned int> indices) {
+    this->vertices = vertices;
+    this->indices  = indices;
+
+    this->setup ();
+}
+
 void Mesh::setup () {
     glGenVertexArrays (1, &VAO);
     glGenBuffers (1, &VBO);
@@ -47,6 +55,9 @@ void Mesh::setup () {
         (void*)offsetof (Vertex, TexCoords));
 
     glBindVertexArray (0);
+
+    // Estimate normals
+    this->estimateNormals();
 }
 
 void Mesh::draw (Shader& shader) const {
@@ -90,4 +101,46 @@ void Mesh::draw (Shader& shader) const {
 
     //  set everything back to defaults once configured
     glActiveTexture (GL_TEXTURE0);
+}
+
+void Mesh::estimateNormals() {
+    // Reset normals to zero for all vertices.
+    for (auto& vertex : vertices) {
+        vertex.Normal = glm::vec3(0.0f);
+    }
+
+    // For each triangle, calculate its face normal and accumulate it for each vertex.
+    // Assumes that 'indices' is a multiple of 3 (i.e., each triangle is defined by 3 indices).
+    for (size_t i = 0; i < indices.size(); i += 3) {
+        unsigned int i0 = indices[i];
+        unsigned int i1 = indices[i + 1];
+        unsigned int i2 = indices[i + 2];
+
+        // Retrieve the positions of the triangle's vertices.
+        const glm::vec3& p0 = vertices[i0].Position;
+        const glm::vec3& p1 = vertices[i1].Position;
+        const glm::vec3& p2 = vertices[i2].Position;
+
+        // Compute the edge vectors.
+        glm::vec3 edge1 = p1 - p0;
+        glm::vec3 edge2 = p2 - p0;
+
+        // Calculate the face normal (normalized).
+        glm::vec3 faceNormal = glm::normalize(glm::cross(edge1, edge2));
+
+        // Accumulate the face normal into each vertex's normal.
+        vertices[i0].Normal += faceNormal;
+        vertices[i1].Normal += faceNormal;
+        vertices[i2].Normal += faceNormal;
+    }
+
+    // Normalize each vertex normal.
+    for (auto& vertex : vertices) {
+        vertex.Normal = glm::normalize(vertex.Normal);
+    }
+
+    // Update the VBO with the new normals.
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferSubData(GL_ARRAY_BUFFER, 0, vertices.size() * sizeof(Vertex), vertices.data());
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 }

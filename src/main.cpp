@@ -2,7 +2,6 @@
 #include "components/Camera.h"
 #include "systems/RenderSystem.h"
 #include "systems/CameraControlSystem.h"
-#include "systems/PointCloudSystem.h"
 #include "components/Renderable.h"
 #include "components/Transform.h"
 #include "components/Geometry.h"
@@ -10,6 +9,7 @@
 #include <chrono>
 #include "GUIManager.h"
 #include "components/Cubemap.h"
+#include "systems/GeometrySystem.h"
 #include "systems/SkyboxRenderSystem.h"
 
 
@@ -60,16 +60,16 @@ int main() {
 
     renderSystem->Init();
 
-    auto pointCloudSystem = gMediator.RegisterSystem<PointCloudSystem>();
+    auto geometrySystem = gMediator.RegisterSystem<GeometrySystem>();
     {
         Signature signature;
         signature.set(gMediator.GetComponentType<Renderable>());
         signature.set(gMediator.GetComponentType<Transform>());
         signature.set(gMediator.GetComponentType<Geometry>());
-        gMediator.SetSystemSignature<PointCloudSystem>(signature);
+        gMediator.SetSystemSignature<GeometrySystem>(signature);
     }
 
-    pointCloudSystem->Init();
+    geometrySystem->Init();
 
     auto skyboxRenderSystem = gMediator.RegisterSystem<SkyboxRenderSystem>();
     {
@@ -90,7 +90,7 @@ int main() {
 
         cameraControlSystem->Update(dt);
 
-        pointCloudSystem->Update(dt);
+        geometrySystem->Update(dt);
 
         renderSystem->Update(dt);
 

@@ -7,6 +7,8 @@
 #include "WindowManager.h"
 #include "core/Event.h"
 
+struct ImGuiIO;
+
 class GUIManager {
 public:
     void Init(GLFWwindow* window);
@@ -20,6 +22,8 @@ public:
     void Log(const std::string& msg, const LogMessageType& type = LogMessageType::Text);
 
 private:
+    ImGuiIO *io = nullptr;
+
     std::vector<LogMessage> mLogMessages;
 
     void DrawParams();

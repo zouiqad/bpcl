@@ -77,12 +77,12 @@ add_executable(${CURRENT_TARGET} src/main.cpp
         src/game/Config.h
         src/graphics/PointCloud.cpp
         src/graphics/PointCloud.h
-        src/systems/PointCloudSystem.cpp
-        src/systems/PointCloudSystem.h
         src/core/Drawable.h
         src/components/Geometry.h
         src/systems/GeometrySystem.cpp
         src/systems/GeometrySystem.h
+        src/utils/MarchingCubes.cpp
+        src/utils/MarchingCubes.h
 )
 
 #==============================================================

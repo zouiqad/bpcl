@@ -1,6 +1,7 @@
 #pragma once
 
 #include <bitset>
+#include <glm/glm.hpp>
 #include <cstdint>
 
 
@@ -44,6 +45,13 @@ enum class LogMessageType {
 struct LogMessage {
     LogMessageType type;
     std::string text;
+};
+
+struct Vertex {
+    glm::vec3 Position;
+    glm::vec3 Color = {1.0f, 1.0f, 1.0f};
+    glm::vec3 Normal;
+    glm::vec2 TexCoords;
 };
 
 // TODO: Make these easier to define and use (macro?)

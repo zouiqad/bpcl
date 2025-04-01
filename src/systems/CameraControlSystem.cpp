@@ -2,8 +2,8 @@
 
 #include <iostream>
 
-#include "Components/Transform.h"
-#include "Core/Mediator.h"
+#include "components/Transform.h"
+#include "core/Mediator.h"
 
 
 extern Mediator gMediator;

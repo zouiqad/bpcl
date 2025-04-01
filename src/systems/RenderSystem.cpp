@@ -106,14 +106,14 @@ void RenderSystem::Update(float dt)
 
 		// Lightning uniform
 		mShader->setUniform("uViewPos", cameraTransform.position);
-		mShader->setUniform("uLightPos", glm::vec3(3.5f, 9.0f, 0.0f));
-		mShader->setUniform("uLightColor", glm::vec3(1.0f, 0.95f, 0.9f));
-		mShader->setUniform("uAmbientColor", glm::vec3(0.5, 0.5, 0.3f));
 		mShader->setUniform("uSpecularStrength", 10.0f);
 		mShader->setUniform("uSpecularPower", 512.0f);
-		mShader->setUniform("uLightAttenuation", glm::vec3(0.2f, 0.07f, 0.03f));
+		mShader->setUniform("uSunDirection", glm::normalize(glm::vec3(0.0f, 1.0f, 0.0f))); // Sun from above
+		mShader->setUniform("uSunColor", glm::vec3(1.0f));  // Full white sun
+		mShader->setUniform("uAmbientColor", glm::vec3(0.3f, 0.3f, 0.3f));  // Increase as needed for global illumination
 
-		renderable.drawable->draw(*mShader);
+		if (renderable.visible)
+			renderable.drawable->draw(*mShader);
 	}
 
 	glBindVertexArray(0);

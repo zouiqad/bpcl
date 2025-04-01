@@ -33,7 +33,7 @@ public:
         }
         else if constexpr (std::is_same_v<T, int>)
         {
-            glUniform1i(glGetUniformLocation(programID, name.c_str()), (GLint)&value);
+            glUniform1i(glGetUniformLocation(programID, name.c_str()), static_cast<GLint>(value));
         }
 
     }

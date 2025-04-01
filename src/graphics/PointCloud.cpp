@@ -8,16 +8,16 @@ PointCloud::~PointCloud() {
     if (VAO) glDeleteVertexArrays(1, &VAO);
 }
 
-PointCloud::PointCloud(const std::vector<Point>& points) : points(points) {
+PointCloud::PointCloud(const std::vector<Vertex>& points) : points(points) {
     setup();
 }
 
-void PointCloud::setPoints(const std::vector<Point>& points) {
+void PointCloud::setVertices(const std::vector<Vertex>& points) {
     this->points = points;
     setup();
 }
 
-const std::vector<Point>& PointCloud::getPoints() const {
+const std::vector<Vertex>& PointCloud::getVertices() const {
     return points;
 }
 
@@ -35,15 +35,15 @@ void PointCloud::setup() {
 
     // Upload the point data
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, points.size() * sizeof(Point), points.data(), GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, points.size() * sizeof(Vertex), points.data(), GL_STATIC_DRAW);
 
     // Vertex attribute for position (location 0)
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Point), (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
 
     // Vertex attribute for color (location 1)
     glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Point), (void*)offsetof(Point, Color));
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Color));
 
     glBindVertexArray(0);
 }

@@ -2,14 +2,11 @@
 
 #include "Shader.h"
 #include <glm/glm.hpp>
+#include "core/Types.h"
 #include <vector>
 
 #include "core/Drawable.h"
 
-struct Point {
-    glm::vec3 Position;
-    glm::vec3 Color;
-};
 
 class PointCloud : public Drawable {
 public:
@@ -17,13 +14,12 @@ public:
     ~PointCloud();
 
     // Constructor to load from a vector of points
-    PointCloud(const std::vector<Point>& points);
+    PointCloud(const std::vector<Vertex>& vertices);
 
     // Set or update the point data
-    void setPoints(const std::vector<Point>& points);
+    void setVertices(const std::vector<Vertex>& vertices);
 
-    // Retrieve the point data (if needed)
-    const std::vector<Point>& getPoints() const;
+    const std::vector<Vertex>& getVertices() const;
 
     // Draw the point cloud using the given shader.
     // Assumes shader is already bound.
@@ -32,7 +28,7 @@ public:
 private:
     GLuint VAO = 0;
     GLuint VBO = 0;
-    std::vector<Point> points;
+    std::vector<Vertex> points;
 
     // Upload the points to the GPU and setup vertex attributes.
     void setup();

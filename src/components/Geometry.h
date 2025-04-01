@@ -10,7 +10,14 @@ enum class GeometryType {
     POINT_CLOUD
 };
 
+enum class Cluster {
+    NONE,
+    BUILDING,
+    VEGETATION
+};
+
 struct Geometry {
     BoundingBox boundingBox;
     GeometryType type;
+    Cluster cluster;
 };
