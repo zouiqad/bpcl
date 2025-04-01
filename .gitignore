@@ -1,0 +1,25 @@
+# Ignore CMake build files and directories
+CMakeLists.txt.user
+CMakeCache.txt
+CMakeFiles/
+CMakeScripts/
+Testing/
+Makefile
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
+CMakeUserPresets.json
+
+# Ignore build dirs
+build*/
+
+# Ignore dependencies folder
+_deps/
+
+# Ignore IDE-specific files and directories
+.idea/
+*.DotSettings
+ls
+
+resources/models/
